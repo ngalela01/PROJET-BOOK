@@ -1,30 +1,55 @@
-# PROJET-BOOK
+# BookHub
 
-# BookHub — Projet NoSQL
+Project provisoire: BookHub — application de bibliothèque pour démonstration de persistance polyglotte.
 
-## Description du projet
+## Description
 
-BookHub est une application de gestion de bibliothèque réalisée dans le cadre du cours NoSQL.
-L’objectif du projet est de mettre en place une architecture de persistance polyglotte autour d’une même application, en utilisant quatre bases de données : SQL, MongoDB, Redis et Neo4j.
+Application démonstrative pour expérimenter plusieurs bases de données (relationnelle, document, clé-valeur, graphe) au sein d'un même projet.
 
-L’application permettra de gérer des utilisateurs, des livres, des emprunts, des favoris et des recommandations.
-Le projet mettra surtout l’accent sur la répartition des données entre les différentes bases, la modélisation adaptée à chaque technologie, les scripts d’initialisation et les requêtes représentatives.
+## Technologies utilisées
 
+- Backend: NestJS (Node.js)
+- Frontend: React + Vite
+- Bases de données:
+  - PostgreSQL (relationnel)
+  - MongoDB (document)
+  - Redis (clé-valeur / cache)
+  - Neo4j (graphe)
+- Conteneurs: Docker Compose
 
-## Technologies prévues
+## Commandes Docker
 
-* SQL : données structurées et transactionnelles
-* MongoDB : fiches livres enrichies
-* Redis : cache, sessions et compteurs
-* Neo4j : relations et recommandations
-* Docker Compose : lancement des services
+Lancer les services en arrière-plan:
 
-## Objectif pédagogique
+```bash
+docker compose up -d
+```
 
-Ce projet vise à démontrer l’utilisation cohérente de plusieurs moteurs de bases de données dans une même application, en choisissant la base la plus adaptée selon le type de donnée et le besoin métier.
+Arrêter les services:
+
+```bash
+docker compose down
+```
+
+Arrêter et supprimer les volumes de données:
+
+```bash
+docker compose down -v
+```
+
+## Rôle des bases
+
+- PostgreSQL: stockage relationnel principal (ex: transactions, relations structurées)
+- MongoDB: stockage de documents flexibles (ex: contenus enrichis, métadonnées)
+- Redis: cache et stockage clé-valeur rapide (ex: sessions, compteurs)
+- Neo4j: modélisation et requêtes de graphe (ex: recommandations, relations entre entités)
+
+## Structure
+
+Voir l'arborescence du projet pour les fichiers initiaux et les seeds.
 
 ## Collaborateurs
 
-* Nayir GALELA
-* Imane BICHON
-* Clara LICETTE
+- Nayir GALELA
+- Imane BICHON
+- Clara LICETTE
