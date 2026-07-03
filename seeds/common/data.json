@@ -1,0 +1,365 @@
+{
+  "users": [
+    {
+      "id": "user_001",
+      "firstName": "Alice",
+      "lastName": "Martin",
+      "email": "alice.martin@example.com",
+      "role": "student"
+    },
+    {
+      "id": "user_002",
+      "firstName": "Nassim",
+      "lastName": "Benali",
+      "email": "nassim.benali@example.com",
+      "role": "student"
+    },
+    {
+      "id": "user_003",
+      "firstName": "Chloé",
+      "lastName": "Durand",
+      "email": "chloe.durand@example.com",
+      "role": "student"
+    },
+    {
+      "id": "user_004",
+      "firstName": "Yanis",
+      "lastName": "Morel",
+      "email": "yanis.morel@example.com",
+      "role": "student"
+    },
+    {
+      "id": "user_005",
+      "firstName": "Emma",
+      "lastName": "Petit",
+      "email": "emma.petit@example.com",
+      "role": "librarian"
+    },
+    {
+      "id": "user_006",
+      "firstName": "Lucas",
+      "lastName": "Bernard",
+      "email": "lucas.bernard@example.com",
+      "role": "student"
+    },
+    {
+      "id": "user_007",
+      "firstName": "Inès",
+      "lastName": "Robert",
+      "email": "ines.robert@example.com",
+      "role": "student"
+    },
+    {
+      "id": "user_008",
+      "firstName": "Mehdi",
+      "lastName": "Leroy",
+      "email": "mehdi.leroy@example.com",
+      "role": "student"
+    }
+  ],
+  "books": [
+    {
+      "id": "book_001",
+      "title": "Dune",
+      "author": "Frank Herbert",
+      "publishedYear": 1965,
+      "category": "science-fiction",
+      "status": "borrowed"
+    },
+    {
+      "id": "book_002",
+      "title": "1984",
+      "author": "George Orwell",
+      "publishedYear": 1949,
+      "category": "dystopie",
+      "status": "available"
+    },
+    {
+      "id": "book_003",
+      "title": "Le Petit Prince",
+      "author": "Antoine de Saint-Exupéry",
+      "publishedYear": 1943,
+      "category": "conte",
+      "status": "available"
+    },
+    {
+      "id": "book_004",
+      "title": "L'Étranger",
+      "author": "Albert Camus",
+      "publishedYear": 1942,
+      "category": "roman",
+      "status": "borrowed"
+    },
+    {
+      "id": "book_005",
+      "title": "Harry Potter à l'école des sorciers",
+      "author": "J. K. Rowling",
+      "publishedYear": 1997,
+      "category": "fantasy",
+      "status": "reserved"
+    },
+    {
+      "id": "book_006",
+      "title": "Fondation",
+      "author": "Isaac Asimov",
+      "publishedYear": 1951,
+      "category": "science-fiction",
+      "status": "available"
+    },
+    {
+      "id": "book_007",
+      "title": "Les Misérables",
+      "author": "Victor Hugo",
+      "publishedYear": 1862,
+      "category": "classique",
+      "status": "available"
+    },
+    {
+      "id": "book_008",
+      "title": "Fahrenheit 451",
+      "author": "Ray Bradbury",
+      "publishedYear": 1953,
+      "category": "dystopie",
+      "status": "borrowed"
+    },
+    {
+      "id": "book_009",
+      "title": "La Nuit des temps",
+      "author": "René Barjavel",
+      "publishedYear": 1968,
+      "category": "science-fiction",
+      "status": "available"
+    },
+    {
+      "id": "book_010",
+      "title": "Le Seigneur des Anneaux",
+      "author": "J. R. R. Tolkien",
+      "publishedYear": 1954,
+      "category": "fantasy",
+      "status": "reserved"
+    }
+  ],
+  "loans": [
+    {
+      "id": "loan_001",
+      "userId": "user_001",
+      "bookId": "book_001",
+      "borrowedAt": "2025-10-01",
+      "dueAt": "2025-10-21",
+      "returnedAt": null,
+      "status": "active"
+    },
+    {
+      "id": "loan_002",
+      "userId": "user_003",
+      "bookId": "book_004",
+      "borrowedAt": "2025-10-03",
+      "dueAt": "2025-10-23",
+      "returnedAt": null,
+      "status": "active"
+    },
+    {
+      "id": "loan_003",
+      "userId": "user_004",
+      "bookId": "book_008",
+      "borrowedAt": "2025-09-28",
+      "dueAt": "2025-10-18",
+      "returnedAt": null,
+      "status": "late"
+    },
+    {
+      "id": "loan_004",
+      "userId": "user_002",
+      "bookId": "book_003",
+      "borrowedAt": "2025-09-01",
+      "dueAt": "2025-09-21",
+      "returnedAt": "2025-09-18",
+      "status": "returned"
+    },
+    {
+      "id": "loan_005",
+      "userId": "user_006",
+      "bookId": "book_006",
+      "borrowedAt": "2025-09-10",
+      "dueAt": "2025-09-30",
+      "returnedAt": "2025-09-29",
+      "status": "returned"
+    }
+  ],
+  "reservations": [
+    {
+      "id": "reservation_001",
+      "userId": "user_002",
+      "bookId": "book_001",
+      "reservedAt": "2025-10-05",
+      "status": "waiting"
+    },
+    {
+      "id": "reservation_002",
+      "userId": "user_007",
+      "bookId": "book_005",
+      "reservedAt": "2025-10-06",
+      "status": "waiting"
+    },
+    {
+      "id": "reservation_003",
+      "userId": "user_008",
+      "bookId": "book_010",
+      "reservedAt": "2025-10-07",
+      "status": "waiting"
+    },
+    {
+      "id": "reservation_004",
+      "userId": "user_004",
+      "bookId": "book_002",
+      "reservedAt": "2025-09-15",
+      "status": "cancelled"
+    }
+  ],
+  "reviews": [
+    {
+      "id": "review_001",
+      "userId": "user_001",
+      "bookId": "book_001",
+      "rating": 5,
+      "comment": "Un classique de la science-fiction.",
+      "createdAt": "2025-10-08"
+    },
+    {
+      "id": "review_002",
+      "userId": "user_002",
+      "bookId": "book_002",
+      "rating": 4,
+      "comment": "Très marquant et toujours actuel.",
+      "createdAt": "2025-10-08"
+    },
+    {
+      "id": "review_003",
+      "userId": "user_003",
+      "bookId": "book_004",
+      "rating": 4,
+      "comment": "Court mais puissant.",
+      "createdAt": "2025-10-09"
+    }
+  ],
+  "likes": [
+    {
+      "userId": "user_001",
+      "bookId": "book_001"
+    },
+    {
+      "userId": "user_001",
+      "bookId": "book_006"
+    },
+    {
+      "userId": "user_002",
+      "bookId": "book_002"
+    },
+    {
+      "userId": "user_003",
+      "bookId": "book_004"
+    },
+    {
+      "userId": "user_004",
+      "bookId": "book_008"
+    },
+    {
+      "userId": "user_006",
+      "bookId": "book_006"
+    },
+    {
+      "userId": "user_007",
+      "bookId": "book_010"
+    }
+  ],
+  "follows": [
+    {
+      "fromUserId": "user_001",
+      "toUserId": "user_002"
+    },
+    {
+      "fromUserId": "user_002",
+      "toUserId": "user_003"
+    },
+    {
+      "fromUserId": "user_003",
+      "toUserId": "user_001"
+    },
+    {
+      "fromUserId": "user_006",
+      "toUserId": "user_001"
+    }
+  ],
+  "similarBooks": [
+    {
+      "fromBookId": "book_001",
+      "toBookId": "book_006"
+    },
+    {
+      "fromBookId": "book_002",
+      "toBookId": "book_008"
+    },
+    {
+      "fromBookId": "book_005",
+      "toBookId": "book_010"
+    }
+  ],
+  "redis": {
+    "bookViews": [
+      {
+        "bookId": "book_001",
+        "views": 120
+      },
+      {
+        "bookId": "book_002",
+        "views": 95
+      },
+      {
+        "bookId": "book_003",
+        "views": 80
+      },
+      {
+        "bookId": "book_006",
+        "views": 110
+      },
+      {
+        "bookId": "book_010",
+        "views": 150
+      }
+    ],
+    "popularScores": [
+      {
+        "bookId": "book_010",
+        "score": 150
+      },
+      {
+        "bookId": "book_001",
+        "score": 120
+      },
+      {
+        "bookId": "book_006",
+        "score": 110
+      },
+      {
+        "bookId": "book_002",
+        "score": 95
+      },
+      {
+        "bookId": "book_003",
+        "score": 80
+      }
+    ],
+    "sessions": [
+      {
+        "userId": "user_001",
+        "token": "session_token_user_001",
+        "ttlSeconds": 3600
+      },
+      {
+        "userId": "user_002",
+        "token": "session_token_user_002",
+        "ttlSeconds": 3600
+      }
+    ]
+  }
+}
