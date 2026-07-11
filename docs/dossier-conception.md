@@ -16,26 +16,20 @@ L'objectif du projet est de montrer une persistance polyglotte: chaque base de d
 ## Architecture globale
 
 ```txt
-                 +-----------------------+
-                 | Application BookHub   |
-                 | Frontend / API        |
-                 +-----------+-----------+
-                             |
-        +--------------------+--------------------+
-        |                    |                    |
-        v                    v                    v
- +-------------+      +-------------+      +-------------+
- | PostgreSQL  |      | MongoDB     |      | Redis       |
- | donnees     |      | documents   |      | cache, TTL, |
- | centrales   |      | enrichis    |      | popularite  |
- +-------------+      +-------------+      +-------------+
-                             |
-                             v
-                       +-------------+
-                       | Neo4j       |
-                       | relations   |
-                       | recomm.     |
-                       +-------------+
+                          +-----------------------+
+                          | Application BookHub   |
+                          | Frontend / API        |
+                          +-----------+-----------+
+                                      |
+        +--------------------+--------------------+--------------------+
+        |                    |                    |                    |
+        v                    v                    v                    v
+ +-------------+      +-------------+      +-------------+      +-------------+
+ | PostgreSQL  |      | MongoDB     |      | Redis       |      | Neo4j       |
+ | donnees     |      | documents   |      | cache, TTL, |      | relations   |
+ | centrales   |      | enrichis    |      | popularite  |      | recomm.     |
+ +-------------+      +-------------+      +-------------+      +-------------+
+                     
 ```
 
 Toutes les bases partagent les memes identifiants fonctionnels (`book_001`, `user_001`, etc.) afin de garder une coherence entre les donnees.
