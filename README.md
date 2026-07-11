@@ -224,6 +224,26 @@ Attention : `docker compose down -v` supprime les données enregistrées dans le
 
 ---
 
+## Initialiser et tester MongoDB
+
+Apres avoir lance les conteneurs Docker, MongoDB peut etre initialise avec :
+
+```bash
+bash scripts/seed-mongo.sh
+```
+
+Ce script cree les collections `book_details` et `reviews`, insere les details enrichis des livres, les avis utilisateurs et les index MongoDB.
+
+Pour lancer les requetes de demonstration :
+
+```bash
+bash scripts/test-mongo.sh
+```
+
+Ce script verifie les collections, compte les documents et execute `seeds/mongo/queries.js`.
+
+---
+
 ## Collaborateurs
 
 - Nayir GALELA

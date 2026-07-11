@@ -5,6 +5,10 @@ const dbName = process.env.MONGO_INITDB_DATABASE || "bookhub";
 
 db = db.getSiblingDB(dbName);
 
+if (typeof config !== "undefined") {
+  config.set("displayBatchSize", 100);
+}
+
 // 1. Afficher les details enrichis d'un livre.
 db.book_details.findOne(
   { bookId: "book_001" },
