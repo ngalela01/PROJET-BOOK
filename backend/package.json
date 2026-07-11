@@ -1,0 +1,11 @@
+{
+  "name": "bookhub-backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Backend minimal de demonstration pour verifier les quatre bases BookHub.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js"
+  }
+}

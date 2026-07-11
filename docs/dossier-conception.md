@@ -40,6 +40,31 @@ L'objectif du projet est de montrer une persistance polyglotte: chaque base de d
 
 Toutes les bases partagent les memes identifiants fonctionnels (`book_001`, `user_001`, etc.) afin de garder une coherence entre les donnees.
 
+## Connexion reelle aux bases
+
+Un backend minimal est prevu dans le dossier `backend/` pour verifier que l'application interroge reellement les quatre bases.
+
+Routes principales:
+
+```txt
+GET  /health
+GET  /api/postgres/books
+GET  /api/postgres/loans/active
+GET  /api/mongo/book-details
+GET  /api/mongo/reviews/book_001
+GET  /api/redis/popular-books
+POST /api/redis/books/book_001/views
+GET  /api/neo4j/recommendations/book_001
+GET  /api/neo4j/users/user_002/recommendations
+```
+
+Ces routes servent de preuve technique:
+
+- PostgreSQL est lu avec des requetes SQL;
+- MongoDB est lu avec des requetes sur les collections documentaires;
+- Redis est lu et mis a jour avec un compteur de vues;
+- Neo4j est lu avec des requetes Cypher de recommandation.
+
 ## Tableau de repartition des donnees
 
 | Donnee | Base principale | Pourquoi |
@@ -346,6 +371,8 @@ Redis est pertinent car les vues, les scores de popularite et les sessions sont 
 ## Partie Neo4j
 
 Neo4j est utilise pour representer les relations entre les utilisateurs, les livres et les categories. Cette base est adaptee aux recommandations, car elle permet de parcourir facilement un graphe de relations.
+
+Le service Docker utilise l'image `neo4j:2025.06`, afin de respecter la contrainte du sujet sur une version Neo4j recente.
 
 ### Noeuds utilises
 

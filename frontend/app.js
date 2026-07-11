@@ -1,4 +1,7 @@
+const API_BASE_URL = "http://127.0.0.1:3001";
+
 let data = null;
+let dataSource = "json";
 
 const state = {
   filter: "all",
@@ -127,6 +130,9 @@ function renderBookcase() {
   qs("#available-count").textContent = statusCount("available");
   qs("#borrowed-count").textContent = statusCount("borrowed");
   qs("#reserved-count").textContent = statusCount("reserved");
+  qs("#data-source").textContent = dataSource === "api"
+    ? "Donnees chargees depuis le backend connecte aux bases."
+    : "Donnees chargees depuis seeds/common/data.json.";
 
   if (!books.some((book) => book.id === state.selectedBookId)) {
     state.selectedBookId = books[0]?.id;
@@ -305,13 +311,92 @@ function renderLoadError(error) {
   `;
 }
 
-async function loadData() {
+async function fetchJson(url, options = {}) {
+  const response = await fetch(url, options);
+  if (!response.ok) {
+    throw new Error(`Erreur HTTP ${response.status} sur ${url}`);
+  }
+
+  return response.json();
+}
+
+function normalizeApiBook(book) {
+  return {
+    id: book.id,
+    title: book.title,
+    author: book.author,
+    publishedYear: book.publishedYear,
+    category: book.category,
+    status: book.status
+  };
+}
+
+function normalizeApiLoan(loan) {
+  return {
+    id: loan.id || loan.loanId,
+    userId: loan.userId,
+    bookId: loan.bookId,
+    borrowedAt: loan.borrowedAt,
+    dueAt: loan.dueAt,
+    returnedAt: null,
+    status: loan.status
+  };
+}
+
+function normalizeApiReservation(reservation) {
+  return {
+    id: reservation.id || reservation.reservationId,
+    userId: reservation.userId,
+    bookId: reservation.bookId,
+    reservedAt: reservation.reservedAt,
+    status: reservation.status
+  };
+}
+
+async function loadLocalData() {
   const response = await fetch("../seeds/common/data.json");
   if (!response.ok) {
     throw new Error(`Erreur HTTP ${response.status}`);
   }
 
-  data = await response.json();
+  return response.json();
+}
+
+function normalizeApiData(apiData) {
+  const popularBooks = apiData.redis?.popularScores || [];
+
+  return {
+    users: apiData.users || [],
+    books: (apiData.books || []).map(normalizeApiBook),
+    loans: (apiData.loans || []).map(normalizeApiLoan),
+    reservations: (apiData.reservations || []).map(normalizeApiReservation),
+    reviews: apiData.reviews || [],
+    bookDetails: apiData.bookDetails || [],
+    similarBooks: apiData.similarBooks || [],
+    redis: {
+      popularScores: popularBooks,
+      bookViews: apiData.redis?.bookViews || popularBooks.map((item) => ({
+        bookId: item.bookId,
+        views: item.score
+      }))
+    }
+  };
+}
+
+async function loadApiData() {
+  const apiData = await fetchJson(`${API_BASE_URL}/api/frontend-data`);
+  return normalizeApiData(apiData);
+}
+
+async function loadData() {
+  try {
+    data = await loadApiData();
+    dataSource = "api";
+  } catch (apiError) {
+    data = await loadLocalData();
+    dataSource = "json";
+  }
+
   state.selectedBookId = data.books[0]?.id || null;
 }
 

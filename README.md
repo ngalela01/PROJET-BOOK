@@ -19,7 +19,7 @@ L'application reste volontairement simple. Le cœur du projet est la mise en pla
 - PostgreSQL
 - MongoDB
 - Redis
-- Neo4j
+- Neo4j 2025.06
 
 Les parties backend et frontend pourront être ajoutées ensuite.
 
@@ -75,6 +75,33 @@ ou :
 ```bash
 docker ps
 ```
+
+---
+
+## Lancer le site connecte aux bases
+
+Un backend minimal est disponible dans `backend/` pour demontrer que l'application interroge reellement les quatre bases. Il sert aussi le frontend.
+
+Il ne demande pas d'installation npm :
+
+```bash
+cd backend
+npm start
+```
+
+Puis tester :
+
+```txt
+http://localhost:3001
+http://localhost:3001/health
+http://localhost:3001/api/frontend-data
+http://localhost:3001/api/postgres/books
+http://localhost:3001/api/mongo/book-details
+http://localhost:3001/api/redis/popular-books
+http://localhost:3001/api/neo4j/recommendations/book_001
+```
+
+La route `/health` verifie PostgreSQL, MongoDB, Redis et Neo4j.
 
 ---
 
