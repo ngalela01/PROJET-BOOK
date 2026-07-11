@@ -264,6 +264,26 @@ Ce script verifie les compteurs de vues, le top des livres populaires, le TTL d'
 
 ---
 
+## Initialiser et tester Neo4j
+
+Apres avoir lance les conteneurs Docker, Neo4j peut etre initialise avec :
+
+```bash
+bash scripts/seed-neo4j.sh
+```
+
+Ce script cree le graphe de recommandation avec les noeuds `User`, `Book` et `Category`, puis ajoute les relations `LIKES`, `FOLLOWS`, `SIMILAR_TO` et `IN_CATEGORY`.
+
+Pour lancer les requetes de demonstration :
+
+```bash
+bash scripts/test-neo4j.sh
+```
+
+Ce script execute `seeds/neo4j/queries.cypher` et montre notamment les recommandations de livres, les utilisateurs qui aiment un livre, les livres par categorie et les relations sociales entre utilisateurs.
+
+---
+
 ## Collaborateurs
 
 - Nayir GALELA

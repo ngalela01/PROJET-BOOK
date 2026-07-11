@@ -192,3 +192,71 @@ scripts/test-redis.sh
 ### Justification du choix Redis
 
 Redis est pertinent car les vues, les scores de popularite et les sessions sont des donnees rapides a lire et souvent temporaires. Ces donnees ne necessitent pas de relations complexes et peuvent etre consultees tres frequemment par l'application.
+
+## Partie Neo4j
+
+Neo4j est utilise pour representer les relations entre les utilisateurs, les livres et les categories. Cette base est adaptee aux recommandations, car elle permet de parcourir facilement un graphe de relations.
+
+### Noeuds utilises
+
+```txt
+User
+Book
+Category
+```
+
+- `User`: represente un utilisateur de l'application.
+- `Book`: represente un livre.
+- `Category`: represente une categorie de livre.
+
+### Relations utilisees
+
+```txt
+(User)-[:LIKES]->(Book)
+(User)-[:FOLLOWS]->(User)
+(Book)-[:SIMILAR_TO]->(Book)
+(Book)-[:IN_CATEGORY]->(Category)
+```
+
+Ces relations permettent de repondre a des questions comme:
+
+- quels utilisateurs aiment un livre precis;
+- quels livres sont similaires a un livre donne;
+- quels livres recommander a un utilisateur selon ses likes;
+- quels livres recommander selon les utilisateurs suivis;
+- combien de livres existent par categorie.
+
+### Requetes de demonstration
+
+Les requetes Neo4j sont dans:
+
+```txt
+seeds/neo4j/queries.cypher
+```
+
+Elles montrent notamment:
+
+- le comptage des noeuds par type;
+- les livres similaires a `Dune`;
+- les utilisateurs qui aiment `Dune`;
+- les recommandations pour un utilisateur selon les livres qu'il aime;
+- les recommandations basees sur les utilisateurs suivis;
+- le nombre de livres par categorie;
+- le classement des livres par nombre de likes.
+
+### Scripts
+
+Les scripts Neo4j sont:
+
+```txt
+scripts/seed-neo4j.sh
+scripts/test-neo4j.sh
+```
+
+`seed-neo4j.sh` initialise le graphe Neo4j avec les donnees du projet.
+
+`test-neo4j.sh` lance les requetes de demonstration pour verifier que les relations et recommandations fonctionnent.
+
+### Justification du choix Neo4j
+
+Neo4j est pertinent pour cette partie car les recommandations reposent sur des relations entre donnees. Dans une base relationnelle, ces parcours demanderaient plusieurs jointures. Dans Neo4j, les chemins comme `User -> LIKES -> Book -> SIMILAR_TO -> Book` sont naturels et lisibles.
