@@ -234,7 +234,7 @@ Exemple de document:
 }
 ```
 
-Les avis sont stockes dans MongoDB car ils correspondent a des documents pouvant contenir du texte libre et des informations variables.
+Les avis sont stockes dans MongoDB car ils correspondent a des documents pouvant contenir du texte libre et des informations variables, de plus un livre peut accumuler un grand nombre d'avis, ce qui ferait grossier le detail du livre.
 
 ### Index MongoDB
 
