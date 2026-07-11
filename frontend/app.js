@@ -69,6 +69,16 @@ function bookViews(bookId) {
   return data.redis?.bookViews?.find((item) => item.bookId === bookId)?.views || 0;
 }
 
+function redisPopularity(bookId) {
+  const scores = data.redis?.popularScores || [];
+  const index = scores.findIndex((item) => item.bookId === bookId);
+  if (index === -1) {
+    return "Non classe";
+  }
+
+  return `#${index + 1} (${scores[index].score})`;
+}
+
 function bookRating(bookId) {
   const reviews = (data.reviews || []).filter((review) => review.bookId === bookId);
   if (reviews.length === 0) return "Aucune note";
@@ -171,6 +181,7 @@ function renderDetails() {
     <div class="meta-list">
       <div class="meta-row"><span>Categorie</span><strong>${book.category}</strong></div>
       <div class="meta-row"><span>Vues Redis</span><strong>${bookViews(book.id)}</strong></div>
+      <div class="meta-row"><span>Popularite Redis</span><strong>${redisPopularity(book.id)}</strong></div>
       <div class="meta-row"><span>Note Mongo</span><strong>${bookRating(book.id)}</strong></div>
       <div class="meta-row"><span>Emprunt</span><strong>${activeLoan ? userName(activeLoan.userId) : "Aucun"}</strong></div>
       <div class="meta-row"><span>Reservation</span><strong>${reservation ? userName(reservation.userId) : "Aucune"}</strong></div>

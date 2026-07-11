@@ -141,3 +141,54 @@ MongoDB est pertinent pour cette partie car les details de livres et les avis so
 - les recherches par tag, note ou public cible sont simples a exprimer en documents JSON.
 
 PostgreSQL reste plus adapte aux donnees relationnelles strictes comme les emprunts et reservations, tandis que MongoDB apporte de la flexibilite pour les informations enrichies.
+
+## Partie Redis
+
+Redis est utilise pour stocker des donnees rapides ou temporaires. Dans BookHub, il sert principalement a representer:
+
+- les vues des livres;
+- le classement des livres populaires;
+- des sessions utilisateurs avec expiration;
+- un cache de statistiques globales.
+
+### Cles utilisees
+
+```txt
+bookhub:book:<bookId>:views
+bookhub:books:popular
+bookhub:session:<userId>
+bookhub:stats
+```
+
+### Types Redis utilises
+
+- `String`: compteur de vues par livre, par exemple `bookhub:book:book_001:views`.
+- `Sorted Set`: classement des livres populaires avec `bookhub:books:popular`.
+- `String avec TTL`: sessions utilisateurs avec `SETEX`.
+- `Hash`: cache de statistiques globales avec `bookhub:stats`.
+
+### Exemples de commandes
+
+```redis
+GET bookhub:book:book_010:views
+ZREVRANGE bookhub:books:popular 0 4 WITHSCORES
+TTL bookhub:session:user_001
+HGETALL bookhub:stats
+```
+
+### Scripts
+
+Les scripts Redis sont:
+
+```txt
+scripts/seed-redis.sh
+scripts/test-redis.sh
+```
+
+`seed-redis.sh` initialise les cles Redis a partir des donnees du projet.
+
+`test-redis.sh` verifie les vues, le classement de popularite, les sessions et le cache de statistiques.
+
+### Justification du choix Redis
+
+Redis est pertinent car les vues, les scores de popularite et les sessions sont des donnees rapides a lire et souvent temporaires. Ces donnees ne necessitent pas de relations complexes et peuvent etre consultees tres frequemment par l'application.
