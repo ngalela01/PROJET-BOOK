@@ -1,3 +1,22 @@
-# Seed minimal pour Redis (format CLI)
-SET book:1:title "Example Book"
-SET book:1:author "Author Example"
+DEL bookhub:book:book_001:views
+DEL bookhub:book:book_002:views
+DEL bookhub:book:book_003:views
+DEL bookhub:book:book_006:views
+DEL bookhub:book:book_010:views
+DEL bookhub:books:popular
+DEL bookhub:session:user_001
+DEL bookhub:session:user_002
+DEL bookhub:stats
+
+SET bookhub:book:book_001:views 120
+SET bookhub:book:book_002:views 95
+SET bookhub:book:book_003:views 80
+SET bookhub:book:book_006:views 110
+SET bookhub:book:book_010:views 150
+
+ZADD bookhub:books:popular 150 book_010 120 book_001 110 book_006 95 book_002 80 book_003
+
+SETEX bookhub:session:user_001 3600 session_token_user_001
+SETEX bookhub:session:user_002 3600 session_token_user_002
+
+HSET bookhub:stats total_books 10 active_loans 3 waiting_reservations 3 reviewed_books 6

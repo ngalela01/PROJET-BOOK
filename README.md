@@ -244,6 +244,26 @@ Ce script verifie les collections, compte les documents et execute `seeds/mongo/
 
 ---
 
+## Initialiser et tester Redis
+
+Apres avoir lance les conteneurs Docker, Redis peut etre initialise avec :
+
+```bash
+bash scripts/seed-redis.sh
+```
+
+Ce script insere les vues des livres, le classement de popularite, les sessions temporaires et un cache de statistiques.
+
+Pour tester Redis :
+
+```bash
+bash scripts/test-redis.sh
+```
+
+Ce script verifie les compteurs de vues, le top des livres populaires, le TTL d'une session et le cache `bookhub:stats`.
+
+---
+
 ## Collaborateurs
 
 - Nayir GALELA
