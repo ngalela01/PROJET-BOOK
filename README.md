@@ -30,6 +30,7 @@ Les parties backend et frontend pourront être ajoutées ensuite.
 - `seeds/postgres/init.sql` crée les tables PostgreSQL.
 - `seeds/postgres/seed.sql` insère les données de test dans PostgreSQL.
 - `scripts/seed-postgres.sh` initialise PostgreSQL automatiquement en lançant `init.sql` puis `seed.sql`.
+- `scripts/test-postgres.sh` lance des requetes SQL de demonstration avec jointures.
 
 Le fichier `data.json` sert de base commune pour garder les mêmes identifiants dans toutes les bases.
 
@@ -53,6 +54,7 @@ Depuis la racine du projet :
 ```bash
 docker compose up -d
 bash scripts/seed-postgres.sh
+bash scripts/test-postgres.sh
 ```
 
 Cette commande lance les conteneurs suivants :
@@ -95,6 +97,18 @@ Ce script :
 4. affiche la liste des tables créées.
 
 Cette méthode est recommandée car elle fonctionne pour tous les membres du groupe sans dépendre des extensions SQL de VS Code.
+
+---
+
+## Tester PostgreSQL
+
+Pour lancer les requetes de demonstration PostgreSQL :
+
+```bash
+bash scripts/test-postgres.sh
+```
+
+Ce script verifie les tables, compte les donnees et montre des jointures entre les utilisateurs, les livres, les emprunts et les reservations.
 
 ---
 
