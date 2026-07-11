@@ -34,15 +34,21 @@
           <strong id="book-count">0</strong>
           <p>Livres charges depuis `seeds/common/data.json`.</p>
         </section>
+
+        <section class="mini-stats" aria-label="Statuts des livres">
+          <div><span>Disponibles</span><strong id="available-count">0</strong></div>
+          <div><span>Empruntes</span><strong id="borrowed-count">0</strong></div>
+          <div><span>Reserves</span><strong id="reserved-count">0</strong></div>
+        </section>
       </aside>
 
       <section class="library">
         <header class="library-header">
           <button class="round-button" type="button" aria-label="Retour">&lt;</button>
           <h1>Bookcase</h1>
-          <div class="sort-group" aria-label="Tri visuel">
-            <button class="small-pill active" type="button">Nom</button>
-            <button class="small-pill" type="button">Date</button>
+          <div class="sort-group" id="sort-controls" aria-label="Tri visuel">
+            <button class="small-pill active" type="button" data-sort="title">Nom</button>
+            <button class="small-pill" type="button" data-sort="date">Date</button>
             <button id="open-add-modal" class="add-pill" type="button">+ Ajouter</button>
           </div>
         </header>
@@ -56,6 +62,29 @@
             <div id="details-content"></div>
           </aside>
         </div>
+
+        <section class="insights" aria-label="Demonstration des bases">
+          <article class="insight-card">
+            <span class="card-label">PostgreSQL</span>
+            <strong id="sql-stat">0</strong>
+            <p>Emprunts et reservations relationnels.</p>
+          </article>
+          <article class="insight-card">
+            <span class="card-label">MongoDB</span>
+            <strong id="mongo-stat">0</strong>
+            <p>Avis et notes flexibles sur les livres.</p>
+          </article>
+          <article class="insight-card">
+            <span class="card-label">Redis</span>
+            <strong id="redis-stat">0</strong>
+            <p>Popularite et vues rapides.</p>
+          </article>
+          <article class="insight-card">
+            <span class="card-label">Neo4j</span>
+            <strong id="neo4j-stat">0</strong>
+            <p>Suggestions et livres similaires.</p>
+          </article>
+        </section>
       </section>
     </main>
 

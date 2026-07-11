@@ -3,6 +3,7 @@ let data = null;
 const state = {
   filter: "all",
   query: "",
+  sort: "title",
   selectedBookId: null
 };
 
@@ -60,6 +61,10 @@ function userName(userId) {
   return user ? `${user.firstName} ${user.lastName}` : "Utilisateur inconnu";
 }
 
+function statusCount(status) {
+  return data.books.filter((book) => book.status === status).length;
+}
+
 function bookViews(bookId) {
   return data.redis?.bookViews?.find((item) => item.bookId === bookId)?.views || 0;
 }
@@ -72,11 +77,19 @@ function bookRating(bookId) {
 }
 
 function filteredBooks() {
-  return data.books.filter((book) => {
+  const books = data.books.filter((book) => {
     const matchesFilter = state.filter === "all" || book.status === state.filter;
     const text = `${normalizeText(book.title)} ${normalizeText(book.author)} ${normalizeText(book.category)}`.toLowerCase();
     const matchesQuery = text.includes(state.query.toLowerCase());
     return matchesFilter && matchesQuery;
+  });
+
+  return books.sort((first, second) => {
+    if (state.sort === "date") {
+      return Number(second.publishedYear || 0) - Number(first.publishedYear || 0);
+    }
+
+    return normalizeText(first.title).localeCompare(normalizeText(second.title), "fr");
   });
 }
 
@@ -101,6 +114,9 @@ function renderBookcase() {
   const shelfCount = Math.max(5, Math.ceil(books.length / shelfSize));
 
   qs("#book-count").textContent = books.length;
+  qs("#available-count").textContent = statusCount("available");
+  qs("#borrowed-count").textContent = statusCount("borrowed");
+  qs("#reserved-count").textContent = statusCount("reserved");
 
   if (!books.some((book) => book.id === state.selectedBookId)) {
     state.selectedBookId = books[0]?.id;
@@ -120,7 +136,7 @@ function renderBookcase() {
     `;
   }).join("");
 
-  renderDetails();
+    renderDetails();
 }
 
 function renderDetails() {
@@ -137,6 +153,7 @@ function renderDetails() {
 
   const activeLoan = (data.loans || []).find((loan) => loan.bookId === book.id && loan.status !== "returned");
   const reservation = (data.reservations || []).find((item) => item.bookId === book.id && item.status === "waiting");
+  const reviews = (data.reviews || []).filter((review) => review.bookId === book.id);
   const similar = (data.similarBooks || [])
     .filter((item) => item.fromBookId === book.id)
     .map((item) => data.books.find((candidate) => candidate.id === item.toBookId)?.title)
@@ -159,7 +176,38 @@ function renderDetails() {
       <div class="meta-row"><span>Reservation</span><strong>${reservation ? userName(reservation.userId) : "Aucune"}</strong></div>
       <div class="meta-row"><span>Suggestion Neo4j</span><strong>${similar.join(", ") || "Aucune"}</strong></div>
     </div>
+
+    <div class="reviews">
+      <h3>Avis MongoDB</h3>
+      ${
+        reviews.length > 0
+          ? reviews
+              .map(
+                (review) => `
+                  <article class="review">
+                    <strong>${review.rating}/5 - ${userName(review.userId)}</strong>
+                    <p>${review.comment}</p>
+                  </article>
+                `
+              )
+              .join("")
+          : `<p>Aucun avis pour ce livre.</p>`
+      }
+    </div>
   `;
+}
+
+function renderInsights() {
+  const activeLoans = (data.loans || []).filter((loan) => loan.status !== "returned").length;
+  const waitingReservations = (data.reservations || []).filter((reservation) => reservation.status === "waiting").length;
+  const reviewedBooks = new Set((data.reviews || []).map((review) => review.bookId)).size;
+  const totalViews = (data.redis?.bookViews || []).reduce((sum, item) => sum + Number(item.views || 0), 0);
+  const relations = (data.similarBooks || []).length;
+
+  qs("#sql-stat").textContent = activeLoans + waitingReservations;
+  qs("#mongo-stat").textContent = reviewedBooks;
+  qs("#redis-stat").textContent = totalViews;
+  qs("#neo4j-stat").textContent = relations;
 }
 
 function bindEvents() {
@@ -174,6 +222,15 @@ function bindEvents() {
 
     state.filter = button.dataset.filter;
     qsa(".filter").forEach((item) => item.classList.toggle("active", item === button));
+    renderBookcase();
+  });
+
+  qs("#sort-controls").addEventListener("click", (event) => {
+    const button = event.target.closest("[data-sort]");
+    if (!button) return;
+
+    state.sort = button.dataset.sort;
+    qsa("[data-sort]").forEach((item) => item.classList.toggle("active", item === button));
     renderBookcase();
   });
 
@@ -221,6 +278,7 @@ function bindEvents() {
     event.currentTarget.reset();
     closeAddModal();
     renderBookcase();
+    renderInsights();
   });
 }
 
@@ -252,6 +310,7 @@ async function init() {
   try {
     await loadData();
     renderBookcase();
+    renderInsights();
   } catch (error) {
     renderLoadError(error);
   }
